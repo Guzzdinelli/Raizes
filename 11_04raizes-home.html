@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raízes Cervejaria — Somos local, somos da roça</title>
+<meta name="description" content="Micro cervejaria artesanal no Sul de Minas, em meio à mata nativa e nascentes da Serra da Mantiqueira. Cervejas com nomes de pássaros, feitas com tempo e raiz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-canvas: #1A1410;
+  --bg-surface: #241B15;
+  --bg-surface-elevated: #2E2218;
+  --bg-overlay: rgba(10, 7, 5, 0.78);
+  --fg-default: #F2E8D5;
+  --fg-muted: #A89880;
+  --fg-subtle: #6B5D49;
+  --accent-primary: #C8631E;
+  --accent-primary-hover: #B0551A;
+  --accent-secondary: #D9A441;
+  --border-subtle: #3A2D22;
+  --border-default: #4A3A2C;
+  --border-strong: #6B5239;
+  --focus-ring: #E0791F;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+  --space-9: 96px; --space-10: 128px;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-full: 9999px;
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --type-display: clamp(48px, 6vw, 84px);
+  --type-title-lg: clamp(36px, 4vw, 52px);
+  --type-title-md: 28px;
+  --type-title-sm: 22px;
+  --type-body-lg: 20px;
+  --type-body: 16px;
+  --type-body-sm: 14px;
+  --type-label: 13px;
+  --type-caption: 12px;
+  --max-width: 1200px;
+  --container-padding: 48px;
+  --elevation-1: 0 1px 2px rgba(0,0,0,0.4);
+  --elevation-2: 0 4px 12px rgba(0,0,0,0.5);
+  --elevation-3: 0 12px 32px rgba(0,0,0,0.6);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  font-size: var(--type-body);
+  line-height: 1.5;
+  color: var(--fg-default);
+  background-color: var(--bg-canvas);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; border-radius: var(--radius-sm); }
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--container-padding); }
+@media (max-width: 768px) { :root { --container-padding: 20px; } }
+
+.label-uppercase {
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 500;
+  color: var(--fg-muted);
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-size: var(--type-title-lg);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--fg-default);
+}
+.section-title em { font-style: italic; color: var(--accent-secondary); font-weight: 400; }
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--space-2); padding: 16px 32px;
+  font-family: var(--font-sans); font-size: var(--type-label);
+  font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+  border-radius: var(--radius-md); transition: all 200ms ease;
+  cursor: pointer; border: 1px solid transparent;
+}
+.btn-primary { background-color: var(--accent-primary); color: var(--bg-canvas); }
+.btn-primary:hover { background-color: var(--accent-primary-hover); transform: translateY(-1px); box-shadow: var(--elevation-2); }
+.btn-outline { background-color: transparent; border-color: var(--border-strong); color: var(--fg-default); }
+.btn-outline:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+.btn-sm { padding: 10px 20px; font-size: 12px; }
+
+/* HEADER */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; height: 80px; z-index: 100;
+  background-color: rgba(26, 20, 16, 0.85);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color 200ms ease;
+}
+.header-inner {
+  height: 100%; display: flex; align-items: center; justify-content: space-between;
+  max-width: var(--max-width); margin: 0 auto; padding: 0 var(--container-padding);
+}
+.logo { display: flex; align-items: center; gap: var(--space-3); }
+.logo-mark { width: 44px; height: 44px; flex-shrink: 0; }
+.logo-text {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: 24px; font-weight: 500;
+  letter-spacing: 0.01em; color: var(--fg-default); line-height: 1;
+}
+.logo-text small {
+  font-style: normal; font-family: var(--font-sans);
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.22em;
+  color: var(--fg-muted); display: block; margin-top: 2px; font-weight: 500;
+}
+.nav { display: flex; align-items: center; gap: var(--space-7); }
+.nav-list { display: flex; gap: var(--space-6); list-style: none; }
+.nav-link {
+  font-size: var(--type-label); font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--fg-default); position: relative;
+  padding: var(--space-2) 0; transition: color 200ms ease;
+}
+.nav-link:hover { color: var(--accent-primary); }
+.nav-link::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 1px; background-color: var(--accent-primary);
+  transform: scaleX(0); transform-origin: center;
+  transition: transform 200ms ease;
+}
+.nav-link:hover::after { transform: scaleX(1); }
+.menu-toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; }
+.menu-toggle svg { width: 24px; height: 24px; stroke: var(--fg-default); }
+@media (max-width: 1024px) {
+  .nav-list, .nav .btn { display: none; }
+  .menu-toggle { display: flex; }
+}
+
+/* DRAWER */
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: min(320px, 85vw); background-color: var(--bg-surface);
+  border-left: 1px solid var(--border-default);
+  padding: var(--space-8) var(--space-6);
+  transform: translateX(100%); transition: transform 300ms ease;
+  z-index: 200; display: flex; flex-direction: column; gap: var(--space-5);
+}
+.drawer.open { transform: translateX(0); }
+.drawer-overlay {
+  position: fixed; inset: 0; background-color: var(--bg-overlay);
+  opacity: 0; pointer-events: none; transition: opacity 300ms ease; z-index: 150;
+}
+.drawer-overlay.open { opacity: 1; pointer-events: auto; }
+.drawer-link {
+  font-family: var(--font-serif); font-size: 22px;
+  color: var(--fg-default); padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.drawer-close {
+  align-self: flex-end; width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+/* AGE GATE */
+.age-gate {
+  position: fixed; inset: 0; background-color: var(--bg-canvas);
+  z-index: 1000; display: flex; align-items: center; justify-content: center;
+  padding: var(--space-5); opacity: 1; transition: opacity 400ms ease;
+}
+.age-gate.hidden { opacity: 0; pointer-events: none; }
+.age-gate-content { text-align: center; max-width: 480px; }
+.age-gate-mark { width: 120px; height: 120px; margin: 0 auto var(--space-6); color: var(--accent-primary); }
+.age-gate-title {
+  font-family: var(--font-serif); font-size: clamp(28px, 4vw, 40px);
+  font-weight: 500; line-height: 1.1; margin-bottom: var(--space-4); color: var(--fg-default);
+}
+.age-gate-title em { font-style: italic; color: var(--accent-secondary); }
+.age-gate-text { font-size: var(--type-body); color: var(--fg-muted); margin-bottom: var(--space-7); line-height: 1.6; }
+.age-gate-actions { display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; }
+
+/* HERO */
+.hero {
+  position: relative; min-height: 92vh;
+  display: flex; align-items: center; padding-top: 80px; overflow: hidden;
+  background:
+    radial-gradient(ellipse at 75% 50%, rgba(200, 99, 30, 0.18) 0%, rgba(200, 99, 30, 0.05) 30%, transparent 60%),
+    var(--bg-canvas);
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 80% 40%, rgba(217, 164, 65, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(200, 99, 30, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 240px;
+  background-image: linear-gradient(to bottom, transparent, rgba(74, 58, 44, 0.15));
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative; display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center; gap: var(--space-8);
+  width: 100%; max-width: var(--max-width);
+  margin: 0 auto; padding: var(--space-9) var(--container-padding); z-index: 2;
+}
+.hero-content { max-width: 660px; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-5); }
+.hero-eyebrow::before { content: ''; width: 32px; height: 1px; background-color: var(--accent-primary); }
+.hero-eyebrow span { color: var(--accent-secondary); }
+.hero-title {
+  font-family: var(--font-serif); font-size: var(--type-display);
+  line-height: 1.02; letter-spacing: -0.03em; font-weight: 400;
+  color: var(--fg-default); margin-bottom: var(--space-5);
+}
+.hero-title em { font-style: italic; color: var(--accent-secondary); }
+.hero-subtitle {
+  font-size: var(--type-body-lg); line-height: 1.5;
+  color: var(--fg-muted); margin-bottom: var(--space-7); max-width: 520px;
+}
+.hero-actions { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+.hero-mark {
+  width: clamp(280px, 32vw, 460px); height: clamp(280px, 32vw, 460px);
+  opacity: 0.85; animation: slowSpin 180s linear infinite;
+}
+@keyframes slowSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.hero-scroll {
+  position: absolute; bottom: var(--space-6); left: 50%; transform: translateX(-50%);
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em;
+  color: var(--fg-muted); display: flex; flex-direction: column; align-items: center;
+  gap: var(--space-2); z-index: 2;
+}
+.hero-scroll::after { content: ''; width: 1px; height: 32px; background: linear-gradient(to bottom, var(--fg-muted), transparent); }
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; gap: var(--space-7); }
+  .hero-mark { grid-row: 1; justify-self: center; width: 220px; height: 220px; opacity: 0.5; }
+  .hero-scroll { display: none; }
+}
+
+/* SHORTCUTS */
+.shortcuts {
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--space-7) 0;
+}
+.shortcuts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+.shortcut-card {
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: var(--space-3); padding: var(--space-5);
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  text-decoration: none; transition: all 200ms ease;
+}
+.shortcut-card:hover { border-color: var(--accent-primary); transform: translateY(-2px); }
+.shortcut-icon { width: 40px; height: 40px; color: var(--accent-secondary); }
+.shortcut-label {
+  font-family: var(--font-serif); font-size: var(--type-title-sm);
+  color: var(--fg-default); font-weight: 500; font-style: italic;
+}
+.shortcut-desc { font-size: var(--type-caption); color: var(--fg-muted); line-height: 1.4; }
+@media (max-width: 768px) { .shortcuts-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* MANIFESTO */
+.manifesto { position: relative; padding: var(--space-10) 0; background-color: var(--bg-canvas); overflow: hidden; }
+.manifesto-watermark {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: min(720px, 90vw); height: min(720px, 90vw);
+  opacity: 0.05; pointer-events: none;
+}
+.manifesto-content { position: relative; max-width: 720px; margin: 0 auto; text-align: center; }
+.manifesto-eyebrow { margin-bottom: var(--space-5); }
+.manifesto-title {
+  font-family: var(--font-serif); font-size: clamp(48px, 6vw, 72px);
+  font-weight: 400; line-height: 1.05; letter-spacing: -0.025em;
+  margin-bottom: var(--space-7); color: var(--fg-default);
+}
+.manifesto-title em { font-style: italic; color: var(--accent-secondary); }
+.manifesto-text {
+  font-family: var(--font-serif); font-size: var(--type-body-lg);
+  line-height: 1.7; color: var(--fg-default); margin-bottom: var(--space-5);
+}
+.manifesto-text:last-of-type { margin-bottom: 0; }
+.manifesto-signature {
+  margin-top: var(--space-7); font-family: var(--font-serif);
+  font-style: italic; font-size: var(--type-body); color: var(--accent-secondary);
+}
+
+/* BEERS */
+.beers { padding: var(--space-10) 0; background-color: var(--bg-canvas); border-top: 1px solid var(--border-subtle); }
+.section-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: var(--space-5); margin-bottom: var(--space-8); flex-wrap: wrap;
+}
+.section-header-text .label-uppercase { margin-bottom: var(--space-3); display: block; }
+.section-link {
+  font-size: var(--type-label); text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--accent-secondary); font-weight: 500;
+  transition: color 200ms ease; white-space: nowrap;
+}
+.section-link:hover { color: var(--accent-primary); }
+.beers-intro { max-width: 580px; font-size: var(--type-body); color: var(--fg-muted); line-height: 1.6; margin-top: var(--space-3); }
+.beers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+.beer-card {
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); padding: var(--space-5);
+  transition: all 200ms ease; display: flex; flex-direction: column;
+}
+.beer-card:hover { border-color: var(--accent-primary); transform: translateY(-4px); box-shadow: var(--elevation-2); }
+.beer-image {
+  aspect-ratio: 4 / 5; border-radius: var(--radius-md); margin-bottom: var(--space-5);
+  background: radial-gradient(ellipse at center 60%, rgba(217, 164, 65, 0.4) 0%, rgba(200, 99, 30, 0.2) 40%, rgba(46, 34, 24, 0.8) 80%);
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.beer-image::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08), transparent 50%);
+}
+.beer-image svg { width: 50%; height: auto; opacity: 0.4; position: relative; z-index: 1; }
+.beer-style {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--fg-muted); margin-bottom: var(--space-2); font-weight: 500;
+}
+.beer-name {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: 28px; font-weight: 500; color: var(--fg-default);
+  margin-bottom: var(--space-3); line-height: 1.1; letter-spacing: -0.01em;
+}
+.beer-desc {
+  font-size: var(--type-body-sm); color: var(--fg-muted);
+  line-height: 1.5; margin-bottom: var(--space-5); flex-grow: 1;
+}
+.beer-meta { display: flex; gap: var(--space-3); padding-top: var(--space-4); border-top: 1px solid var(--border-subtle); }
+.beer-badge {
+  width: 56px; height: 56px; border-radius: var(--radius-full);
+  background-color: var(--bg-canvas); border: 1px solid var(--accent-secondary);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.beer-badge-value { font-family: var(--font-serif); font-size: 15px; font-weight: 600; color: var(--fg-default); line-height: 1; }
+.beer-badge-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--fg-muted); margin-top: 2px; }
+@media (max-width: 1024px) { .beers-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .beers-grid { grid-template-columns: 1fr; } }
+
+/* TAPROOM */
+.taproom { padding: var(--space-10) 0; background-color: var(--bg-surface); border-top: 1px solid var(--border-subtle); }
+.taproom-inner { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-9); align-items: center; }
+.taproom-image {
+  aspect-ratio: 4 / 5; border-radius: var(--radius-lg);
+  background:
+    radial-gradient(ellipse at 60% 40%, rgba(217, 164, 65, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 70%, rgba(200, 99, 30, 0.2) 0%, transparent 60%),
+    linear-gradient(135deg, #2E2218 0%, #1A1410 100%);
+  position: relative; overflow: hidden; border: 1px solid var(--border-subtle);
+}
+.taproom-image::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 220, 150, 0.4) 0%, transparent 2%),
+    radial-gradient(circle at 70% 20%, rgba(255, 220, 150, 0.3) 0%, transparent 1.5%),
+    radial-gradient(circle at 50% 60%, rgba(255, 220, 150, 0.5) 0%, transparent 2.5%),
+    radial-gradient(circle at 85% 75%, rgba(255, 220, 150, 0.35) 0%, transparent 2%),
+    radial-gradient(circle at 15% 85%, rgba(255, 220, 150, 0.4) 0%, transparent 1.8%),
+    radial-gradient(circle at 40% 15%, rgba(255, 220, 150, 0.3) 0%, transparent 1.2%);
+  filter: blur(1px);
+}
+.taproom-content .label-uppercase { margin-bottom: var(--space-4); display: block; }
+.taproom-title {
+  font-family: var(--font-serif); font-size: var(--type-title-lg);
+  line-height: 1.05; letter-spacing: -0.025em; font-weight: 400; margin-bottom: var(--space-5);
+}
+.taproom-title em { font-style: italic; color: var(--accent-secondary); }
+.taproom-text { font-size: var(--type-body); color: var(--fg-muted); line-height: 1.6; margin-bottom: var(--space-6); max-width: 480px; }
+.taproom-info {
+  display: flex; flex-direction: column; gap: var(--space-4);
+  margin-bottom: var(--space-7); padding: var(--space-5);
+  background-color: var(--bg-surface-elevated);
+  border-left: 2px solid var(--accent-primary); border-radius: var(--radius-sm);
+}
+.taproom-info-row { display: flex; flex-direction: column; gap: var(--space-1); }
+.taproom-info-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--fg-muted); font-weight: 500; }
+.taproom-info-value { font-size: var(--type-body); color: var(--fg-default); }
+.taproom-actions { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+@media (max-width: 1024px) {
+  .taproom-inner { grid-template-columns: 1fr; gap: var(--space-7); }
+  .taproom-image { max-width: 480px; margin: 0 auto; }
+}
+
+/* EXTRAS */
+.extras { padding: var(--space-9) 0; background-color: var(--bg-canvas); border-top: 1px solid var(--border-subtle); }
+.extras-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+.extra-card {
+  padding: var(--space-7); background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);
+  display: flex; align-items: flex-start; gap: var(--space-5); transition: all 200ms ease;
+}
+.extra-card:hover { border-color: var(--accent-primary); }
+.extra-icon {
+  width: 56px; height: 56px; flex-shrink: 0; color: var(--accent-secondary);
+  border: 1px solid var(--border-default); border-radius: var(--radius-full);
+  display: flex; align-items: center; justify-content: center; padding: var(--space-3);
+}
+.extra-content { flex: 1; }
+.extra-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--fg-muted); display: block; margin-bottom: var(--space-2); font-weight: 500; }
+.extra-title { font-family: var(--font-serif); font-size: var(--type-title-sm); font-weight: 500; color: var(--fg-default); margin-bottom: var(--space-2); }
+.extra-desc { font-size: var(--type-body-sm); color: var(--fg-muted); line-height: 1.5; margin-bottom: var(--space-3); }
+.extra-link { font-size: var(--type-label); text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-secondary); font-weight: 500; }
+.extra-link:hover { color: var(--accent-primary); }
+@media (max-width: 768px) { .extras-grid { grid-template-columns: 1fr; } }
+
+/* FOOTER */
+.footer { background-color: var(--bg-surface); border-top: 1px solid var(--border-default); padding: var(--space-9) 0 var(--space-6); }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: var(--space-7); margin-bottom: var(--space-8); }
+.footer-brand .logo { margin-bottom: var(--space-5); }
+.footer-tagline { font-family: var(--font-serif); font-style: italic; font-size: var(--type-body); color: var(--fg-muted); max-width: 320px; line-height: 1.5; }
+.footer-col-title { font-size: var(--type-label); text-transform: uppercase; letter-spacing: 0.12em; color: var(--fg-muted); margin-bottom: var(--space-4); font-weight: 600; }
+.footer-list { list-style: none; display: flex; flex-direction: column; gap: var(--space-3); }
+.footer-list a { font-size: var(--type-body-sm); color: var(--fg-default); transition: color 200ms ease; }
+.footer-list a:hover { color: var(--accent-primary); }
+.footer-warning {
+  background-color: var(--bg-canvas); border: 1px solid var(--accent-primary);
+  border-radius: var(--radius-md); padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-6); display: flex; align-items: center; gap: var(--space-4);
+}
+.footer-warning-icon { width: 32px; height: 32px; flex-shrink: 0; color: var(--accent-primary); }
+.footer-warning-text { font-size: var(--type-body-sm); color: var(--fg-default); font-weight: 500; letter-spacing: 0.02em; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: var(--space-5); border-top: 1px solid var(--border-subtle); flex-wrap: wrap; gap: var(--space-3); }
+.footer-copyright { font-size: var(--type-caption); color: var(--fg-subtle); }
+.footer-legal { display: flex; gap: var(--space-5); }
+.footer-legal a { font-size: var(--type-caption); color: var(--fg-subtle); transition: color 200ms ease; }
+.footer-legal a:hover { color: var(--fg-muted); }
+@media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); } }
+@media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; } }
+
+/* ANIMATIONS */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 800ms ease, transform 800ms ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .fade-in { opacity: 1; transform: none; }
+  .hero-mark { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGO SVG SYMBOL -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="raizes-mark" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <g stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <line x1="50" y1="14" x2="50" y2="22"/>
+        <line x1="38" y1="16" x2="40" y2="24"/>
+        <line x1="62" y1="16" x2="60" y2="24"/>
+        <line x1="28" y1="20" x2="32" y2="27"/>
+        <line x1="72" y1="20" x2="68" y2="27"/>
+        <line x1="20" y1="28" x2="26" y2="32"/>
+        <line x1="80" y1="28" x2="74" y2="32"/>
+      </g>
+      <g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round">
+        <path d="M50 30 Q44 34 44 40 Q44 44 50 46 Q56 44 56 40 Q56 34 50 30 Z"/>
+        <path d="M50 38 Q42 42 42 50 Q42 55 50 58 Q58 55 58 50 Q58 42 50 38 Z"/>
+        <path d="M50 48 Q40 52 40 60 Q40 66 50 70 Q60 66 60 60 Q60 52 50 48 Z"/>
+      </g>
+      <g stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round">
+        <path d="M8 72 Q25 68 42 72 T76 72 T92 72"/>
+        <path d="M6 80 Q24 76 42 80 T78 80 T94 80"/>
+        <path d="M8 88 Q26 84 44 88 T78 88 T92 88"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- AGE GATE -->
+<div class="age-gate" id="ageGate" role="dialog" aria-labelledby="age-gate-title" aria-modal="true">
+  <div class="age-gate-content">
+    <svg class="age-gate-mark" aria-hidden="true"><use href="#raizes-mark"/></svg>
+    <h2 class="age-gate-title" id="age-gate-title">Você tem mais de <em>18 anos?</em></h2>
+    <p class="age-gate-text">Este site contém informações sobre bebidas alcoólicas. Aprecie com moderação.</p>
+    <div class="age-gate-actions">
+      <button class="btn btn-primary" id="ageConfirm">Sim, tenho 18+</button>
+      <a href="https://www.google.com" class="btn btn-outline">Não tenho</a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header" role="banner">
+  <div class="header-inner">
+    <a href="#" class="logo" aria-label="Raízes Cervejaria, página inicial">
+      <svg class="logo-mark" style="color: var(--accent-primary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+      <span class="logo-text">Raízes<small>cervejaria</small></span>
+    </a>
+    <nav class="nav" aria-label="Navegação principal">
+      <ul class="nav-list">
+        <li><a href="#cervejaria" class="nav-link">A Cervejaria</a></li>
+        <li><a href="#cervejas" class="nav-link">Cervejas</a></li>
+        <li><a href="#taproom" class="nav-link">Visite</a></li>
+        <li><a href="#extras" class="nav-link">Mais</a></li>
+        <li><a href="#contato" class="nav-link">Contato</a></li>
+      </ul>
+      <a href="https://wa.me/5535999250728/?text=Olá%20Cervejaria%20Raízes" class="btn btn-outline btn-sm" target="_blank" rel="noopener">Fale conosco</a>
+    </nav>
+    <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" id="menuToggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+        <line x1="4" y1="8" x2="20" y2="8"/>
+        <line x1="4" y1="16" x2="20" y2="16"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer" aria-label="Menu de navegação móvel">
+  <button class="drawer-close" aria-label="Fechar menu" id="drawerClose">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <line x1="6" y1="6" x2="18" y2="18"/>
+      <line x1="18" y1="6" x2="6" y2="18"/>
+    </svg>
+  </button>
+  <a href="#cervejaria" class="drawer-link">A Cervejaria</a>
+  <a href="#cervejas" class="drawer-link">Cervejas</a>
+  <a href="#taproom" class="drawer-link">Visite</a>
+  <a href="#extras" class="drawer-link">Mais</a>
+  <a href="#contato" class="drawer-link">Contato</a>
+  <a href="https://wa.me/5535999250728" class="btn btn-primary" style="margin-top: var(--space-5)" target="_blank" rel="noopener">Fale no WhatsApp</a>
+</aside>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="label-uppercase">Sul de Minas — Serra da Mantiqueira</span>
+      </div>
+      <h1 class="hero-title" id="hero-title">
+        Somos local,<br>somos <em>da roça.</em>
+      </h1>
+      <p class="hero-subtitle">
+        Micro cervejaria artesanal em meio à mata nativa e às nascentes da Mantiqueira. Cervejas que carregam o nome dos pássaros que cantam aqui fora.
+      </p>
+      <div class="hero-actions">
+        <a href="#cervejas" class="btn btn-primary">Conheça as cervejas</a>
+        <a href="#taproom" class="btn btn-outline">Venha nos visitar</a>
+      </div>
+    </div>
+    <svg class="hero-mark" style="color: var(--accent-primary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+  </div>
+  <div class="hero-scroll" aria-hidden="true"><span>Role para descobrir</span></div>
+</section>
+
+<!-- SHORTCUTS -->
+<section class="shortcuts" aria-label="Atalhos rápidos">
+  <div class="container">
+    <div class="shortcuts-grid">
+      <a href="#cervejas" class="shortcut-card">
+        <svg class="shortcut-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 8 Q14 12 14 18 Q14 22 20 24 Q26 22 26 18 Q26 12 20 8 Z"/>
+          <path d="M20 18 Q12 22 12 30 Q12 34 20 36 Q28 34 28 30 Q28 22 20 18 Z"/>
+        </svg>
+        <span class="shortcut-label">Cervejas</span>
+        <span class="shortcut-desc">Nove rótulos com nome de pássaro</span>
+      </a>
+      <a href="#taproom" class="shortcut-card">
+        <svg class="shortcut-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 30 L20 12 L34 30 Z"/>
+          <path d="M14 30 L14 24 L26 24 L26 30"/>
+        </svg>
+        <span class="shortcut-label">Visite</span>
+        <span class="shortcut-desc">A cervejaria fica no meio da mata</span>
+      </a>
+      <a href="#extras" class="shortcut-card">
+        <svg class="shortcut-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 4 C12 4 6 10 6 18 C6 28 20 36 20 36 C20 36 34 28 34 18 C34 10 28 4 20 4 Z"/>
+          <circle cx="20" cy="18" r="5"/>
+        </svg>
+        <span class="shortcut-label">Onde achar</span>
+        <span class="shortcut-desc">Rota das cervejarias do Sul de Minas</span>
+      </a>
+      <a href="#cervejaria" class="shortcut-card">
+        <svg class="shortcut-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="20" cy="20" r="16"/>
+          <path d="M20 8 L20 20 L28 24"/>
+        </svg>
+        <span class="shortcut-label">Nossa raiz</span>
+        <span class="shortcut-desc">A história e o manifesto</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto fade-in" id="cervejaria" aria-labelledby="manifesto-title">
+  <svg class="manifesto-watermark" style="color: var(--accent-primary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+  <div class="container">
+    <div class="manifesto-content">
+      <div class="manifesto-eyebrow"><span class="label-uppercase">Manifesto</span></div>
+      <h2 class="manifesto-title" id="manifesto-title">Aqui, raiz é <em>lugar.</em></h2>
+      <p class="manifesto-text">
+        Estamos no Sul de Minas, em meio à mata nativa e às nascentes da Serra da Mantiqueira. Somos uma micro cervejaria local que preserva os aromas e os sentimentos rurais.
+      </p>
+      <p class="manifesto-text">
+        Cada rótulo nasce do encontro entre a água que brota daqui, o ofício de quem brassa devagar, e o canto dos pássaros que dão nome às nossas cervejas.
+      </p>
+      <p class="manifesto-text">
+        Não fazemos cerveja para impressionar. Fazemos para durar — como tudo que tem raiz.
+      </p>
+      <div class="manifesto-signature">— Somos local, somos da roça.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BEERS -->
+<section class="beers fade-in" id="cervejas" aria-labelledby="beers-title">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-header-text">
+        <span class="label-uppercase">Catálogo</span>
+        <h2 class="section-title" id="beers-title">Cervejas <em>de pássaro.</em></h2>
+        <p class="beers-intro">
+          Cada uma das nossas nove cervejas leva o nome de um pássaro brasileiro — a maioria deles canta aqui mesmo, na mata em volta da cervejaria.
+        </p>
+      </div>
+      <a href="#" class="section-link">Ver cardápio completo →</a>
+    </div>
+
+    <div class="beers-grid">
+      <article class="beer-card">
+        <div class="beer-image" role="img" aria-label="Rótulo da cerveja Serelepe">
+          <svg style="color: var(--accent-secondary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+        </div>
+        <span class="beer-style">Vienna Lager</span>
+        <h3 class="beer-name">Serelepe</h3>
+        <p class="beer-desc">Maltada, cor de cobre, fácil de beber. Como o pássaro que dá nome a ela: leve, presente e cheia de vida.</p>
+        <div class="beer-meta">
+          <div class="beer-badge"><span class="beer-badge-value">5.0%</span><span class="beer-badge-label">ABV</span></div>
+          <div class="beer-badge"><span class="beer-badge-value">22</span><span class="beer-badge-label">IBU</span></div>
+        </div>
+      </article>
+
+      <article class="beer-card">
+        <div class="beer-image" role="img" aria-label="Rótulo da cerveja Canário">
+          <svg style="color: var(--accent-secondary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+        </div>
+        <span class="beer-style">Pale Lager</span>
+        <h3 class="beer-name">Canário</h3>
+        <p class="beer-desc">Dourada, refrescante, equilibrada. Aquela que abre a roda e agrada todo mundo na mesa.</p>
+        <div class="beer-meta">
+          <div class="beer-badge"><span class="beer-badge-value">4.8%</span><span class="beer-badge-label">ABV</span></div>
+          <div class="beer-badge"><span class="beer-badge-value">18</span><span class="beer-badge-label">IBU</span></div>
+        </div>
+      </article>
+
+      <article class="beer-card">
+        <div class="beer-image" role="img" aria-label="Rótulo da cerveja Maritaca">
+          <svg style="color: var(--accent-secondary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+        </div>
+        <span class="beer-style">American Pale Ale</span>
+        <h3 class="beer-name">Maritaca</h3>
+        <p class="beer-desc">Lúpulos americanos, notas cítricas e tropicais. Barulhenta no aroma, equilibrada no gole.</p>
+        <div class="beer-meta">
+          <div class="beer-badge"><span class="beer-badge-value">5.4%</span><span class="beer-badge-label">ABV</span></div>
+          <div class="beer-badge"><span class="beer-badge-value">38</span><span class="beer-badge-label">IBU</span></div>
+        </div>
+      </article>
+
+      <article class="beer-card">
+        <div class="beer-image" role="img" aria-label="Rótulo da cerveja Siriema">
+          <svg style="color: var(--accent-secondary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+        </div>
+        <span class="beer-style">Baltic Porter</span>
+        <h3 class="beer-name">Siriema</h3>
+        <p class="beer-desc">Escura, encorpada, com notas de café e chocolate amargo. Para as noites frias da Mantiqueira.</p>
+        <div class="beer-meta">
+          <div class="beer-badge"><span class="beer-badge-value">7.2%</span><span class="beer-badge-label">ABV</span></div>
+          <div class="beer-badge"><span class="beer-badge-value">32</span><span class="beer-badge-label">IBU</span></div>
+        </div>
+      </article>
+
+      <article class="beer-card">
+        <div class="beer-image" role="img" aria-label="Rótulo da cerveja Saracura">
+          <svg style="color: var(--accent-secondary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+        </div>
+        <span class="beer-style">Munich Dunkel</span>
+        <h3 class="beer-name">Saracura</h3>
+        <p class="beer-desc">Lager escura alemã. Maltada, suave, com final seco. Cerveja escura sem ser pesada.</p>
+        <div class="beer-meta">
+          <div class="beer-badge"><span class="beer-badge-value">5.2%</span><span class="beer-badge-label">ABV</span></div>
+          <div class="beer-badge"><span class="beer-badge-value">24</span><span class="beer-badge-label">IBU</span></div>
+        </div>
+      </article>
+
+      <article class="beer-card">
+        <div class="beer-image" role="img" aria-label="Rótulo da cerveja Caiana">
+          <svg style="color: var(--accent-secondary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+        </div>
+        <span class="beer-style">Belgian Dubbel</span>
+        <h3 class="beer-name">Caiana</h3>
+        <p class="beer-desc">Tradição belga, frutas escuras, malte rico. Complexa, contemplativa, para ser bebida sem pressa.</p>
+        <div class="beer-meta">
+          <div class="beer-badge"><span class="beer-badge-value">7.0%</span><span class="beer-badge-label">ABV</span></div>
+          <div class="beer-badge"><span class="beer-badge-value">25</span><span class="beer-badge-label">IBU</span></div>
+        </div>
+      </article>
+
+      <article class="beer-card">
+        <div class="beer-image" role="img" aria-label="Rótulo da cerveja Anhumas">
+          <svg style="color: var(--accent-secondary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+        </div>
+        <span class="beer-style">German Leichtbier</span>
+        <h3 class="beer-name">Anhumas</h3>
+        <p class="beer-desc">Leve, baixa graduação, refrescante. Para os dias longos de sol e os goles que pedem outro.</p>
+        <div class="beer-meta">
+          <div class="beer-badge"><span class="beer-badge-value">3.4%</span><span class="beer-badge-label">ABV</span></div>
+          <div class="beer-badge"><span class="beer-badge-value">14</span><span class="beer-badge-label">IBU</span></div>
+        </div>
+      </article>
+
+      <article class="beer-card">
+        <div class="beer-image" role="img" aria-label="Rótulo da cerveja Sabiá">
+          <svg style="color: var(--accent-secondary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+        </div>
+        <span class="beer-style">Irish Red Ale</span>
+        <h3 class="beer-name">Sabiá</h3>
+        <p class="beer-desc">Cor de cobre intensa, malte tostado, leve doçura caramelada. Aconchegante como o canto dela.</p>
+        <div class="beer-meta">
+          <div class="beer-badge"><span class="beer-badge-value">5.0%</span><span class="beer-badge-label">ABV</span></div>
+          <div class="beer-badge"><span class="beer-badge-value">26</span><span class="beer-badge-label">IBU</span></div>
+        </div>
+      </article>
+
+      <article class="beer-card">
+        <div class="beer-image" role="img" aria-label="Rótulo da cerveja Anum">
+          <svg style="color: var(--accent-secondary)" aria-hidden="true"><use href="#raizes-mark"/></svg>
+        </div>
+        <span class="beer-style">Extra Special Bitter</span>
+        <h3 class="beer-name">Anum</h3>
+        <p class="beer-desc">Clássica inglesa. Malte caramelo, lúpulos terrosos, amargor presente mas elegante.</p>
+        <div class="beer-meta">
+          <div class="beer-badge"><span class="beer-badge-value">5.6%</span><span class="beer-badge-label">ABV</span></div>
+          <div class="beer-badge"><span class="beer-badge-value">42</span><span class="beer-badge-label">IBU</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- TAPROOM -->
+<section class="taproom fade-in" id="taproom" aria-labelledby="taproom-title">
+  <div class="container">
+    <div class="taproom-inner">
+      <div class="taproom-image" role="img" aria-label="Imagem ilustrativa do ambiente da cervejaria, com luz quente entre a mata"></div>
+      <div class="taproom-content">
+        <span class="label-uppercase">Venha nos visitar</span>
+        <h2 class="taproom-title" id="taproom-title">A cervejaria fica <em>na mata.</em></h2>
+        <p class="taproom-text">
+          Estamos em Córrego do Bom Jesus, no Sul de Minas, cercados pela Serra da Mantiqueira. Vir aqui é parte da experiência: a estrada, o silêncio, o canto dos pássaros e a cerveja saindo direto da fonte.
+        </p>
+        <div class="taproom-info">
+          <div class="taproom-info-row">
+            <span class="taproom-info-label">Onde estamos</span>
+            <span class="taproom-info-value">Córrego do Bom Jesus, MG — Serra da Mantiqueira</span>
+          </div>
+          <div class="taproom-info-row">
+            <span class="taproom-info-label">Combine sua visita</span>
+            <span class="taproom-info-value">+55 35 99925-0728</span>
+          </div>
+        </div>
+        <div class="taproom-actions">
+          <a href="https://maps.app.goo.gl/y5rgiqd5hf3Xv7Q96" class="btn btn-primary" target="_blank" rel="noopener">Como chegar</a>
+          <a href="https://wa.me/5535999250728/?text=Olá%20Cervejaria%20Raízes,%20gostaria%20de%20combinar%20uma%20visita" class="btn btn-outline" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXTRAS -->
+<section class="extras fade-in" id="extras" aria-label="Conteúdos adicionais">
+  <div class="container">
+    <div class="extras-grid">
+      <a href="https://open.spotify.com/playlist/5cttamJb9kypCLO6rnIeD6" class="extra-card" target="_blank" rel="noopener">
+        <div class="extra-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="16" r="14"/>
+            <path d="M9 13 Q16 11 23 14 M9 17 Q16 15 22 18 M10 21 Q16 19 21 22"/>
+          </svg>
+        </div>
+        <div class="extra-content">
+          <span class="extra-label">Trilha sonora</span>
+          <h3 class="extra-title">Nossa playlist no Spotify</h3>
+          <p class="extra-desc">A trilha sonora que toca aqui dentro. Pra ouvir enquanto a cerveja desce.</p>
+          <span class="extra-link">Abrir no Spotify →</span>
+        </div>
+      </a>
+
+      <a href="https://drive.google.com/file/d/11orYl2i25ZJh1z6uvNoDHTqkdA1d14WN/view" class="extra-card" target="_blank" rel="noopener">
+        <div class="extra-icon">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 4 C10 4 6 8 6 14 C6 22 16 30 16 30 C16 30 26 22 26 14 C26 8 22 4 16 4 Z"/>
+            <circle cx="16" cy="14" r="3"/>
+          </svg>
+        </div>
+        <div class="extra-content">
+          <span class="extra-label">Roteiro</span>
+          <h3 class="extra-title">Rota das Cervejarias</h3>
+          <p class="extra-desc">Faça parte do roteiro cervejeiro do Sul de Minas. Várias cervejarias, uma região só.</p>
+          <span class="extra-link">Ver o roteiro →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer" id="contato" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <svg class="logo-mark" style="color: var(--accent-primary); width: 56px; height: 56px;" aria-hidden="true"><use href="#raizes-mark"/></svg>
+          <span class="logo-text">Raízes<small>cervejaria</small></span>
+        </a>
+        <p class="footer-tagline">Micro cervejaria rural e artesanal no Sul de Minas. Somos local, somos da roça.</p>
+      </div>
+      <div>
+        <h3 class="footer-col-title">Navegue</h3>
+        <ul class="footer-list">
+          <li><a href="#cervejaria">Manifesto</a></li>
+          <li><a href="#cervejas">Cervejas</a></li>
+          <li><a href="#taproom">Visite</a></li>
+          <li><a href="#extras">Mais</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-col-title">Fale com a gente</h3>
+        <ul class="footer-list">
+          <li><a href="https://wa.me/5535999250728" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="https://maps.app.goo.gl/y5rgiqd5hf3Xv7Q96" target="_blank" rel="noopener">Como chegar</a></li>
+          <li><a href="#">Cardápio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-col-title">Redes</h3>
+        <ul class="footer-list">
+          <li><a href="https://www.instagram.com/cervejariaraizes/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.facebook.com/cervejariaraizes" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://untappd.com/w/cervejaria-raa-zes/495572" target="_blank" rel="noopener">Untappd</a></li>
+          <li><a href="https://open.spotify.com/playlist/5cttamJb9kypCLO6rnIeD6" target="_blank" rel="noopener">Spotify</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-warning" role="note">
+      <svg class="footer-warning-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="16" cy="16" r="14"/>
+        <line x1="16" y1="10" x2="16" y2="17"/>
+        <circle cx="16" cy="22" r="0.5" fill="currentColor"/>
+      </svg>
+      <span class="footer-warning-text">Beba com moderação. Venda e consumo proibidos para menores de 18 anos.</span>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copyright">© 2026 Cervejaria Raízes. Todos os direitos reservados.</span>
+      <div class="footer-legal">
+        <a href="#">Política de privacidade</a>
+        <a href="#">Termos de uso</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// AGE GATE
+const ageGate = document.getElementById('ageGate');
+const ageConfirm = document.getElementById('ageConfirm');
+if (sessionStorage.getItem('raizes_age_confirmed') === 'true') {
+  ageGate.classList.add('hidden');
+  document.body.style.overflow = '';
+  setTimeout(() => { ageGate.style.display = 'none'; }, 0);
+} else {
+  document.body.style.overflow = 'hidden';
+}
+ageConfirm.addEventListener('click', () => {
+  sessionStorage.setItem('raizes_age_confirmed', 'true');
+  ageGate.classList.add('hidden');
+  document.body.style.overflow = '';
+  setTimeout(() => { ageGate.style.display = 'none'; }, 400);
+});
+
+// MOBILE DRAWER
+const menuToggle = document.getElementById('menuToggle');
+const drawer = document.getElementById('drawer');
+const drawerOverlay = document.getElementById('drawerOverlay');
+const drawerClose = document.getElementById('drawerClose');
+function openDrawer() {
+  drawer.classList.add('open');
+  drawerOverlay.classList.add('open');
+  menuToggle.setAttribute('aria-expanded', 'true');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  drawer.classList.remove('open');
+  drawerOverlay.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+menuToggle.addEventListener('click', openDrawer);
+drawerClose.addEventListener('click', closeDrawer);
+drawerOverlay.addEventListener('click', closeDrawer);
+document.querySelectorAll('.drawer-link').forEach(link => link.addEventListener('click', closeDrawer));
+
+// FADE-IN
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// HEADER SCROLL
+const header = document.querySelector('.header');
+window.addEventListener('scroll', () => {
+  header.style.backgroundColor = window.pageYOffset > 100
+    ? 'rgba(26, 20, 16, 0.95)'
+    : 'rgba(26, 20, 16, 0.85)';
+});
+</script>
+
+</body>
+</html>
